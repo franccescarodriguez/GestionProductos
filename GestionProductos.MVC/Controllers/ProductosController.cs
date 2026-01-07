@@ -15,9 +15,7 @@ namespace GestionProductos.MVC.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        // =======================
         // LISTADO
-        // =======================
         public async Task<IActionResult> Index(bool soloActivos = false)
         {
             var client = _httpClientFactory.CreateClient("API");
@@ -39,10 +37,7 @@ namespace GestionProductos.MVC.Controllers
         }
 
 
-        // =======================
         // CREATE
-        // =======================
-
         // GET: Productos/Create
         public IActionResult Create()
         {
@@ -54,7 +49,7 @@ namespace GestionProductos.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductoViewModel producto)
         {
-            // ✅ Validación
+            // Validación
             if (!ModelState.IsValid)
                 return View(producto);
 
@@ -67,16 +62,13 @@ namespace GestionProductos.MVC.Controllers
             if (!response.IsSuccessStatusCode)
                 return View(producto);
 
-            // ✅ Mensaje de éxito
+            // Mensaje de éxito
             TempData["Success"] = "Producto creado correctamente";
 
             return RedirectToAction(nameof(Index));
         }
 
-        // =======================
         // EDIT
-        // =======================
-
         // GET: Productos/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
@@ -98,11 +90,11 @@ namespace GestionProductos.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ProductoViewModel producto)
         {
-            // ✅ Validar Id
+            // Validar Id
             if (id != producto.IdProducto)
                 return BadRequest();
 
-            // ✅ Validación de modelo
+            // Validación de modelo
             if (!ModelState.IsValid)
                 return View(producto);
 
@@ -115,16 +107,14 @@ namespace GestionProductos.MVC.Controllers
             if (!response.IsSuccessStatusCode)
                 return View(producto);
 
-            // ✅ Mensaje de éxito
+            // Mensaje de éxito
             TempData["Success"] = "Producto actualizado correctamente";
 
             return RedirectToAction(nameof(Index));
         }
 
-        // =======================
-        // DELETE
-        // =======================
 
+        // DELETE
         // GET: Productos/Delete/5
         public async Task<IActionResult> Delete(int id, bool soloActivos = false)
         {
@@ -134,8 +124,7 @@ namespace GestionProductos.MVC.Controllers
             return RedirectToAction(nameof(Index), new { soloActivos });
         }
 
-
-
+        // REACTIVAR
         public async Task<IActionResult> Reactivar(int id, bool soloActivos = false)
         {
             var client = _httpClientFactory.CreateClient("API");

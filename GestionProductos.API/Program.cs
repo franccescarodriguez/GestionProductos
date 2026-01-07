@@ -3,11 +3,6 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// =======================
-// SERVICES
-// =======================
-
-// Controllers + JSON
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -22,7 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// CORS (OBLIGATORIO para MVC)
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -36,9 +31,6 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// =======================
-// PIPELINE
-// =======================
 
 if (app.Environment.IsDevelopment())
 {
@@ -48,7 +40,6 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 
-// CORS DEBE IR AQUÍ
 app.UseCors("AllowAll");
 
 app.UseAuthorization();

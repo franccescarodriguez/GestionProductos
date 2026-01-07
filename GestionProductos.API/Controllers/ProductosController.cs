@@ -93,7 +93,7 @@ namespace GestionProductos.API.Controllers
             if (producto == null)
                 return NotFound();
 
-            // 🔒 Regla de negocio: no borrar, desactivar
+            // Regla de negocio: no borrar, desactivar
             producto.Estado = false;
 
             await _context.SaveChangesAsync();
