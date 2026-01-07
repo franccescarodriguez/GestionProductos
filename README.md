@@ -96,7 +96,8 @@ Tabla **Productos**:
 
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/USUARIO/GestionProductos.git
+   git clone https://github.com/franccescarodriguez/GestionProductos.git
+
    
 2. Configurar la cadena de conexión a SQL Server en appsettings.json.
 3. Ejecutar las migraciones:
