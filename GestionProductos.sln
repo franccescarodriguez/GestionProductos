@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36109.1 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionProductos.API", "GestionProductos.API\GestionProductos.API.csproj", "{9561936D-2CB3-40EF-9F5D-F970BBEA99D8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestionProductos.MVC", "GestionProductos.MVC\GestionProductos.MVC.csproj", "{F60C15DA-5A24-4396-AB87-1FB0B44CE05C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{9561936D-2CB3-40EF-9F5D-F970BBEA99D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9561936D-2CB3-40EF-9F5D-F970BBEA99D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9561936D-2CB3-40EF-9F5D-F970BBEA99D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F60C15DA-5A24-4396-AB87-1FB0B44CE05C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F60C15DA-5A24-4396-AB87-1FB0B44CE05C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F60C15DA-5A24-4396-AB87-1FB0B44CE05C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F60C15DA-5A24-4396-AB87-1FB0B44CE05C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
