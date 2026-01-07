@@ -2,24 +2,62 @@
 
 <h2>Lista de Productos</h2>
 
-<table class="table">
-    <thead>
+@{
+    ViewData["Title"] = "Productos";
+}
+
+<h2 class="mb-3">Gestión de Productos</h2>
+
+<a asp-action="Create" class="btn btn-success mb-3">
+    Nuevo Producto
+</a>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
         <tr>
             <th>Nombre</th>
             <th>Precio</th>
             <th>Stock</th>
             <th>Estado</th>
+            <th style="width:180px;">Acciones</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
         {
             <tr>
                 <td>@item.Nombre</td>
                 <td>@item.Precio</td>
                 <td>@item.Stock</td>
-                <td>@(item.Estado ? "Activo" : "Inactivo")</td>
+                <td>
+                    @(item.Estado ? "Activo" : "Inactivo")
+                </td>
+                <td>
+                    <a asp-action="Edit"
+                       asp-route-id="@item.IdProducto"
+                       class="btn btn-warning btn-sm">
+                        Editar
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@item.IdProducto"
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Seguro que deseas eliminar este producto?');">
+                        Eliminar
+                    </a>
+                </td>
             </tr>
         }
+    }
+    else
+    {
+        <tr>
+            <td colspan="5" class="text-center">
+                No hay productos registrados
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
