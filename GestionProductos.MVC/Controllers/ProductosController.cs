@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.Http;
 using System.Text.Json;
+using System.Text;
 using GestionProductos.MVC.Models;
 
 namespace GestionProductos.MVC.Controllers
@@ -14,6 +15,9 @@ namespace GestionProductos.MVC.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
+        // =======================
+        // LISTADO
+        // =======================
         public async Task<IActionResult> Index()
         {
             var client = _httpClientFactory.CreateClient("API");
@@ -32,6 +36,10 @@ namespace GestionProductos.MVC.Controllers
             return View(productos);
         }
 
+        // =======================
+        // CREATE
+        // =======================
+
         // GET: Productos/Create
         public IActionResult Create()
         {
@@ -43,25 +51,35 @@ namespace GestionProductos.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductoViewModel producto)
         {
+            // ✅ Validación
             if (!ModelState.IsValid)
                 return View(producto);
 
             var client = _httpClientFactory.CreateClient("API");
             var json = JsonSerializer.Serialize(producto);
-            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync("api/productos", content);
+
             if (!response.IsSuccessStatusCode)
                 return View(producto);
 
+            // ✅ Mensaje de éxito
+            TempData["Success"] = "Producto creado correctamente";
+
             return RedirectToAction(nameof(Index));
         }
+
+        // =======================
+        // EDIT
+        // =======================
 
         // GET: Productos/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
             var client = _httpClientFactory.CreateClient("API");
             var response = await client.GetAsync($"api/productos/{id}");
+
             if (!response.IsSuccessStatusCode)
                 return NotFound();
 
@@ -77,29 +95,43 @@ namespace GestionProductos.MVC.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, ProductoViewModel producto)
         {
+            // ✅ Validar Id
             if (id != producto.IdProducto)
                 return BadRequest();
 
+            // ✅ Validación de modelo
+            if (!ModelState.IsValid)
+                return View(producto);
+
             var client = _httpClientFactory.CreateClient("API");
             var json = JsonSerializer.Serialize(producto);
-            var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PutAsync($"api/productos/{id}", content);
+
             if (!response.IsSuccessStatusCode)
                 return View(producto);
 
+            // ✅ Mensaje de éxito
+            TempData["Success"] = "Producto actualizado correctamente";
+
             return RedirectToAction(nameof(Index));
         }
+
+        // =======================
+        // DELETE
+        // =======================
 
         // GET: Productos/Delete/5
         public async Task<IActionResult> Delete(int id)
         {
             var client = _httpClientFactory.CreateClient("API");
             await client.DeleteAsync($"api/productos/{id}");
+
+            // (opcional) mensaje de éxito
+            TempData["Success"] = "Producto eliminado correctamente";
+
             return RedirectToAction(nameof(Index));
         }
-
-
     }
 }
-

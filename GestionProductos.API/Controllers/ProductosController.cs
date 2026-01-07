@@ -20,8 +20,10 @@ namespace GestionProductos.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Producto>>> GetProductos()
         {
-            return await _context.Productos.ToListAsync();
+            var productos = await _context.Productos.ToListAsync();
+            return Ok(productos);
         }
+
 
         // GET: api/productos/5
         [HttpGet("{id}")]
