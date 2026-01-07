@@ -84,16 +84,33 @@ namespace GestionProductos.API.Controllers
         public async Task<IActionResult> DeleteProducto(int id)
         {
             var producto = await _context.Productos.FindAsync(id);
-            if (producto == null)
-            {
-                return NotFound();
-            }
 
-            _context.Productos.Remove(producto);
+            if (producto == null)
+                return NotFound();
+
+            // 🔒 Regla de negocio: no borrar, desactivar
+            producto.Estado = false;
+
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
+
+        // PUT: api/productos/reactivar/5
+        [HttpPut("reactivar/{id}")]
+        public async Task<IActionResult> ReactivarProducto(int id)
+        {
+            var producto = await _context.Productos.FindAsync(id);
+
+            if (producto == null)
+                return NotFound();
+
+            producto.Estado = true;
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
 
         private bool ProductoExists(int id)
         {

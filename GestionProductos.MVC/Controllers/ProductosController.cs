@@ -126,12 +126,33 @@ namespace GestionProductos.MVC.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var client = _httpClientFactory.CreateClient("API");
-            await client.DeleteAsync($"api/productos/{id}");
+            var response = await client.DeleteAsync($"api/productos/{id}");
 
-            // (opcional) mensaje de éxito
-            TempData["Success"] = "Producto eliminado correctamente";
+            if (!response.IsSuccessStatusCode)
+            {
+                var error = await response.Content.ReadAsStringAsync();
+                TempData["Error"] = string.IsNullOrWhiteSpace(error)
+                    ? "No se pudo eliminar el producto."
+                    : error;
+            }
+            else
+            {
+                TempData["Success"] = "Producto eliminado correctamente.";
+            }
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Reactivar(int id)
+        {
+            var client = _httpClientFactory.CreateClient("API");
+            await client.PutAsync($"api/productos/reactivar/{id}", null);
+
+            TempData["Success"] = "Producto reactivado correctamente.";
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }

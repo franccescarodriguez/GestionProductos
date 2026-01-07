@@ -21,6 +21,22 @@
     </p>
 </div>
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
 
 <!-- TÍTULO + BOTÓN -->
 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -37,6 +53,8 @@
         <tr>
             <th>ID</th>
             <th>Nombre</th>
+            <th>Marca</th>
+            <th>Categoría</th>
             <th>Precio</th>
             <th>Stock</th>
             <th>Estado</th>
@@ -44,18 +62,29 @@
         </tr>
     </thead>
 
+
     <tbody>
         @if (Model != null && Model.Any())
         {
             foreach (var item in Model)
             {
-                <tr>
+               <tr>
                     <td>@item.IdProducto</td>
                     <td>@item.Nombre</td>
+                    <td>@item.Marca</td>
+                    <td>@item.Categoria</td>
                     <td>S/. @item.Precio</td>
-                    <td>@item.Stock</td>
+                    <td>
+                        @if (item.Stock == 0)
+                        {
+                            <span class="badge bg-warning text-dark">Sin stock</span>
+                        }
+                        else
+                        {
+                            @item.Stock
+                        }
+                    </td>
 
-                    <!-- ESTADO CON BADGE -->
                     <td>
                         @if (item.Estado)
                         {
@@ -66,23 +95,34 @@
                             <span class="badge bg-secondary">Inactivo</span>
                         }
                     </td>
-
-                    <!-- ACCIONES -->
                     <td>
-                        <a asp-action="Edit"
-                           asp-route-id="@item.IdProducto"
-                           class="btn btn-warning btn-sm me-1">
-                            Editar
-                        </a>
+                        @if (item.Estado)
+                        {
+                            <a asp-action="Edit"
+                               asp-route-id="@item.IdProducto"
+                               class="btn btn-warning btn-sm me-1">
+                                Editar
+                            </a>
 
-                        <a asp-action="Delete"
-                           asp-route-id="@item.IdProducto"
-                           class="btn btn-danger btn-sm"
-                           onclick="return confirm('¿Seguro que deseas eliminar este producto?');">
-                            Eliminar
-                        </a>
+                            <a asp-action="Delete"
+                               asp-route-id="@item.IdProducto"
+                               class="btn btn-danger btn-sm">
+                                Desactivar
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="Reactivar"
+                               asp-route-id="@item.IdProducto"
+                               class="btn btn-success btn-sm">
+                                Reactivar
+                            </a>
+                        }
                     </td>
+
+
                 </tr>
+
             }
         }
         else
