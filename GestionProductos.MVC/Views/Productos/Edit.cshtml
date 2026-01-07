@@ -4,45 +4,72 @@
     ViewData["Title"] = "Editar Producto";
 }
 
-<h2 class="mb-3">Editar Producto</h2>
+<h2 class="mb-4">Editar Producto</h2>
 
-<div class="row">
-    <div class="col-md-6">
-
-        <!-- Mensajes de validación generales -->
-        <div asp-validation-summary="All" class="text-danger mb-3"></div>
-
+<div class="card shadow-sm">
+    <div class="card-body">
         <form asp-action="Edit" method="post">
-
-            <!-- Id oculto -->
             <input type="hidden" asp-for="IdProducto" />
 
-            <div class="form-group mb-2">
+            <!-- NOMBRE -->
+            <div class="mb-3">
                 <label asp-for="Nombre" class="form-label"></label>
                 <input asp-for="Nombre" class="form-control" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
 
-            <div class="form-group mb-2">
+            <!-- MARCA -->
+            <div class="mb-3">
+                <label asp-for="Marca" class="form-label"></label>
+                <input asp-for="Marca" class="form-control" />
+                <span asp-validation-for="Marca" class="text-danger"></span>
+            </div>
+
+            <!-- CATEGORÍA -->
+            <div class="mb-3">
+                <label asp-for="Categoria" class="form-label"></label>
+                <select asp-for="Categoria" class="form-select">
+                    <option>Computadoras</option>
+                    <option>Accesorios</option>
+                    <option>Periféricos</option>
+                    <option>Componentes</option>
+                    <option>Otros</option>
+                </select>
+                <span asp-validation-for="Categoria" class="text-danger"></span>
+            </div>
+
+            <!-- PRECIO -->
+            <div class="mb-3">
                 <label asp-for="Precio" class="form-label"></label>
                 <input asp-for="Precio" class="form-control" />
                 <span asp-validation-for="Precio" class="text-danger"></span>
             </div>
 
-            <div class="form-group mb-2">
+            <!-- STOCK -->
+            <div class="mb-3">
                 <label asp-for="Stock" class="form-label"></label>
                 <input asp-for="Stock" class="form-control" />
                 <span asp-validation-for="Stock" class="text-danger"></span>
             </div>
 
-            <div class="form-check mb-3">
+            <!-- ESTADO -->
+            <div class="form-check form-switch mb-4">
                 <input asp-for="Estado" class="form-check-input" />
-                <label asp-for="Estado" class="form-check-label"></label>
+                <label asp-for="Estado" class="form-check-label">
+                    Producto activo
+                </label>
             </div>
 
-            <button type="submit" class="btn btn-primary">Guardar cambios</button>
-            <a asp-action="Index" class="btn btn-secondary ms-2">Volver</a>
+            <!-- BOTONES -->
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">
+                    Volver
+                </a>
 
+                <button type="submit" class="btn btn-warning">
+                    Guardar Cambios
+                </button>
+            </div>
         </form>
     </div>
 </div>

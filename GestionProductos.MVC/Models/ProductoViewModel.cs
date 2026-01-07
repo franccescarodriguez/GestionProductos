@@ -7,7 +7,16 @@ namespace GestionProductos.MVC.Models
         public int IdProducto { get; set; }
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
+        [StringLength(100)]
         public string Nombre { get; set; }
+
+        [Required(ErrorMessage = "La marca es obligatoria")]
+        [StringLength(50)]
+        public string Marca { get; set; }
+
+        [Required(ErrorMessage = "La categoría es obligatoria")]
+        [StringLength(50)]
+        public string Categoria { get; set; }
 
         [Required(ErrorMessage = "El precio es obligatorio")]
         [Range(0.01, 99999)]
