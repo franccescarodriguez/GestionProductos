@@ -18,23 +18,26 @@ namespace GestionProductos.MVC.Controllers
         // =======================
         // LISTADO
         // =======================
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool soloActivos = false)
         {
             var client = _httpClientFactory.CreateClient("API");
-            var response = await client.GetAsync("api/productos");
+            var url = soloActivos ? "api/productos?soloActivos=true" : "api/productos";
+
+            var response = await client.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
-            {
                 return View(new List<ProductoViewModel>());
-            }
 
             var json = await response.Content.ReadAsStringAsync();
             var productos = JsonSerializer.Deserialize<List<ProductoViewModel>>(
                 json,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
 
+            ViewBag.SoloActivos = soloActivos;
+
             return View(productos);
         }
+
 
         // =======================
         // CREATE
@@ -123,35 +126,24 @@ namespace GestionProductos.MVC.Controllers
         // =======================
 
         // GET: Productos/Delete/5
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id, bool soloActivos = false)
         {
             var client = _httpClientFactory.CreateClient("API");
-            var response = await client.DeleteAsync($"api/productos/{id}");
+            await client.DeleteAsync($"api/productos/{id}");
 
-            if (!response.IsSuccessStatusCode)
-            {
-                var error = await response.Content.ReadAsStringAsync();
-                TempData["Error"] = string.IsNullOrWhiteSpace(error)
-                    ? "No se pudo eliminar el producto."
-                    : error;
-            }
-            else
-            {
-                TempData["Success"] = "Producto eliminado correctamente.";
-            }
-
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { soloActivos });
         }
 
-        public async Task<IActionResult> Reactivar(int id)
+
+
+        public async Task<IActionResult> Reactivar(int id, bool soloActivos = false)
         {
             var client = _httpClientFactory.CreateClient("API");
             await client.PutAsync($"api/productos/reactivar/{id}", null);
 
-            TempData["Success"] = "Producto reactivado correctamente.";
-
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { soloActivos });
         }
+
 
 
     }

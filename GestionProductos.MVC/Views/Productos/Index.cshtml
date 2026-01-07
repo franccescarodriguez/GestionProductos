@@ -47,6 +47,22 @@
     </a>
 </div>
 
+
+<div class="mb-3">
+    <a asp-action="Index"
+       asp-route-soloActivos="true"
+       class="btn @(ViewBag.SoloActivos ? "btn-primary" : "btn-outline-primary")">
+        Activos
+    </a>
+
+    <a asp-action="Index"
+       asp-route-soloActivos="false"
+       class="btn @(!ViewBag.SoloActivos ? "btn-primary" : "btn-outline-primary")">
+        Todos
+    </a>
+</div>
+
+
 <!-- TABLA -->
 <table class="table table-striped table-hover shadow-sm">
     <thead class="table-dark">
@@ -106,17 +122,21 @@
 
                             <a asp-action="Delete"
                                asp-route-id="@item.IdProducto"
+                               asp-route-soloActivos="@ViewBag.SoloActivos"
                                class="btn btn-danger btn-sm">
                                 Desactivar
                             </a>
+
                         }
                         else
                         {
                             <a asp-action="Reactivar"
                                asp-route-id="@item.IdProducto"
+                               asp-route-soloActivos="@ViewBag.SoloActivos"
                                class="btn btn-success btn-sm">
                                 Reactivar
                             </a>
+
                         }
                     </td>
 

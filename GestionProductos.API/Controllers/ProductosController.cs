@@ -16,13 +16,18 @@ namespace GestionProductos.API.Controllers
             _context = context;
         }
 
-        // GET: api/productos
+        // GET: api/productos?soloActivos=true
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Producto>>> GetProductos()
+        public async Task<ActionResult<IEnumerable<Producto>>> GetProductos([FromQuery] bool soloActivos = false)
         {
-            var productos = await _context.Productos.ToListAsync();
-            return Ok(productos);
+            var query = _context.Productos.AsQueryable();
+
+            if (soloActivos)
+                query = query.Where(p => p.Estado);
+
+            return await query.ToListAsync();
         }
+
 
 
         // GET: api/productos/5
